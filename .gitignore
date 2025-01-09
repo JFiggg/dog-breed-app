@@ -1,0 +1,12 @@
+X# Dataset folders
+/backend/data/train/
+/backend/data/val/
+/backend/data/test/
+
+# Model weights
+/backend/model/weights/
+*.pth
+
+# Python cache files
+__pycache__/
+*.pyc
