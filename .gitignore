@@ -1,4 +1,4 @@
-X# Dataset folders
+# Dataset folders
 /backend/data/train/
 /backend/data/val/
 /backend/data/test/
@@ -10,3 +10,6 @@ X# Dataset folders
 # Python cache files
 __pycache__/
 *.pyc
+
+# Virtual env
+/venv/

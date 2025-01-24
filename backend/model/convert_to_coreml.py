@@ -1,19 +1,23 @@
+import os
 import torch
 import coremltools as ct
 from torchvision import models
 import torch.nn as nn
 
-# First install coremltools
-# pip install coremltools
-
 def convert_model():
-    # Load your trained model
-    model = models.resnet50()
-    num_classes = 120  # Number of dog breeds
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    weights_path = os.path.join(current_dir, 'weights', 'model_epoch_30.pth')
     
-    # Load your trained weights
-    model.load_state_dict(torch.load('weights/best_model.pth'))
+    print(f"Looking for model at: {weights_path}")
+    
+    # Load your trained model
+    model = models.efficientnet_b0(weights='IMAGENET1K_V1')
+    num_classes = 120
+    model.classifier = nn.Linear(model.classifier[1].in_features, num_classes)
+
+    # Load state
+    state_dict = torch.load(weights_path, map_location=torch.device('cpu'))
+    model.load_state_dict(state_dict)
     model.eval()
     
     # Trace the model with example input
@@ -27,7 +31,8 @@ def convert_model():
     )
     
     # Save the model
-    mlmodel.save("DogBreedClassifier.mlmodel")
+    output_path = os.path.join(current_dir, 'DogBreedClassifier.mlmodel')
+    mlmodel.save(output_path)
     print("Model converted and saved as DogBreedClassifier.mlmodel")
 
 if __name__ == "__main__":
