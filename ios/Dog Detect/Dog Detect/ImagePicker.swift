@@ -1,3 +1,11 @@
+//
+//  ImagePicker.swift
+//  Dog Detect
+//
+//  Created by Jason Figueroa on 1/21/25.
+//
+
+
 import SwiftUI
 import UIKit
 
