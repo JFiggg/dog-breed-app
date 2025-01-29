@@ -15,9 +15,10 @@ class DogBreedPredictor:
         self.class_map = train_dataset.class_map
         
         # Load model
-        self.model = models.resnet50(pretrained=False)
-        self.model.fc = nn.Linear(self.model.fc.in_features, len(self.class_map))
-        self.model.load_state_dict(torch.load(model_path))
+        self.model = models.efficientnet_b0(weights=None)
+        self.model.classifier = nn.Linear(self.model.classifier[1].in_features, len(self.class_map))
+        checkpoint = torch.load(model_path, map_location=torch.device('cpu'), weights_only=True)
+        self.model.load_state_dict(checkpoint)
         self.model = self.model.to(self.device)
         self.model.eval()
         
@@ -41,10 +42,10 @@ class DogBreedPredictor:
 
 if __name__ == '__main__':
     predictor = DogBreedPredictor(
-        model_path='model/weights/model_epoch_10.pth',
+        model_path='model/weights/model_epoch_30.pth',
         train_data_path='data/train'
     )
     
     # Test prediction
-    breed = predictor.predict('path/to/test/image.jpg')
-    print(f'Predicted breed: {breed}')
+    breed = predictor.predict('data/train/n02096051-Airedale/n02096051_9359.jpg')
+    print(f'The predicted breed is a {breed}')

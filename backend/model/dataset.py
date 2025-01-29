@@ -45,7 +45,7 @@ class DogBreedDataset(Dataset):
 if __name__ == "__main__":
 
     dataset = DogBreedDataset(
-        root_dir="path/to/your/data/train",
+        root_dir="data/train",
         transform=train_transform
     )
     
